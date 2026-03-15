@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Custos</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+  <div class="app-shell">
+    <header class="hero">
+      <p class="eyebrow hero-eyebrow">Tela unica do sistema</p>
+      <div class="hero-main">
+        <div class="title-bubble">
+          <span class="title-chip">Sistema principal</span>
+          <h1>Calculadora de Custos e Preco</h1>
+        </div>
+      </div>
+      <div class="hero-badge">
+        <span>Resultado principal</span>
+        <strong id="hero-unit-price">R$ 0,00</strong>
+        <small>Custo unitario com margem aplicada</small>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="panel panel-form">
+        <div class="panel-head">
+          <h2>Entradas do Sistema</h2>
+          <p>Campos de texto para digitacao e opcoes para marcacao, conforme o tipo de preenchimento.</p>
+        </div>
+
+        <form id="cost-form" class="form-grid">
+          <label>
+            Data hoje
+            <input name="today" type="date" required>
+          </label>
+
+          <fieldset class="choice-field">
+            <legend>Ryobi ou Komori</legend>
+            <label class="inline-choice">
+              <input name="machine" type="radio" value="RYOBI" checked>
+              Ryobi
+            </label>
+            <label class="inline-choice">
+              <input name="machine" type="radio" value="KOMORI">
+              Komori
+            </label>
+          </fieldset>
+
+          <label>
+            Caixas por folha
+            <input name="boxesPerSheet" type="text" value="1" required>
+          </label>
+
+          <label>
+            Gramatura da folha
+            <input name="grammage" type="text" value="300" required>
+          </label>
+
+          <label>
+            Formato papel
+            <select name="paperFormat" required>
+              <option value="66 X 96" selected>66 X 96</option>
+              <option value="77 X 113">77 X 113</option>
+            </select>
+          </label>
+
+          <label>
+            Tampa dia operador (Produtividade)
+            <input name="lidPerDay" type="text" value="0" required>
+          </label>
+
+          <label>
+            Box dia operador (Produtividade)
+            <input name="boxPerDay" type="text" value="0" required>
+          </label>
+
+          <label>
+            Custo do kilo do papel utilizado
+            <input name="paperKgCost" type="text" value="12,55" required>
+          </label>
+
+          <label>
+            Margem lucro %
+            <input name="profitMargin" type="text" value="0" required>
+          </label>
+
+          <div class="panel-divider"></div>
+          <div class="panel-head">
+            <h3>Configurações de Custo</h3>
+            <p>Ajuste os valores técnicos para refinamento do cálculo.</p>
+          </div>
+
+          <div class="form-grid settings-grid">
+            <label>
+              % Perda Gráfica (Setup)
+              <input name="setupLossPercent" type="text" value="10" required>
+            </label>
+
+            <label>
+              Custo Insumos (Unitário)
+              <input name="unitSuppliesCost" type="text" value="0,0754" required>
+            </label>
+
+            <label>
+              Custo Impressão (Unitário)
+              <input name="unitPrintingCost" type="text" value="0,4500" required>
+            </label>
+
+            <label>
+              Custo Plastificação (m²)
+              <input name="plastM2Cost" type="text" value="0,36" required>
+            </label>
+
+            <label>
+              Setup Corte e Vinco
+              <input name="diecutSetupCost" type="text" value="0,1500" required>
+            </label>
+
+            <label>
+              Salário Operador + Encargos
+              <input name="operatorSalary" type="text" value="R$ 3.300,00" required>
+            </label>
+
+            <label>
+              Dias Úteis / Mês
+              <input name="workingDays" type="text" value="22" required>
+            </label>
+          </div>
+
+          <div class="checks">
+            <label class="check-item">
+              <input name="zeroPrinting" type="checkbox">
+              Zerar valor impressao
+            </label>
+
+            <label class="check-item">
+              <input name="plastification" type="checkbox" checked>
+              Plastificacao
+            </label>
+
+            <label class="check-item">
+              <input name="zeroSetup" type="checkbox">
+              Zerar valor setup
+            </label>
+
+            <label class="check-item">
+              <input name="zeroSupplies" type="checkbox">
+              Zerar custos fixos de insumo
+            </label>
+
+            <label class="check-item">
+              <input name="assemblyPrice" type="checkbox" checked>
+              Preco com montagem de tampa e box?
+            </label>
+          </div>
+
+          <div class="actions">
+            <button type="submit">Calcular</button>
+            <button type="button" id="reset-form" class="secondary">Limpar</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="panel panel-results">
+        <div class="panel-head">
+          <h2>Resumo de Custos</h2>
+          <p>Os valores abaixo sao calculados automaticamente a partir da tela de entrada.</p>
+        </div>
+
+        <div class="result-primary">
+          <span>R$ Custo Unitario</span>
+          <strong id="unit-price">R$ 0,00</strong>
+        </div>
+
+        <div class="result-grid">
+          <article class="result-card">
+            <span>Custos papel folha</span>
+            <strong id="paper-cost">R$ 0,00</strong>
+          </article>
+          <article class="result-card">
+            <span>Custos de impressao</span>
+            <strong id="printing-cost">R$ 0,00</strong>
+          </article>
+          <article class="result-card">
+            <span>Custos de plastificacao</span>
+            <strong id="plastification-cost">R$ 0,00</strong>
+          </article>
+          <article class="result-card">
+            <span>Setup</span>
+            <strong id="setup-cost">R$ 0,00</strong>
+          </article>
+          <article class="result-card">
+            <span>Custos de insumos</span>
+            <strong id="supplies-cost">R$ 0,00</strong>
+          </article>
+          <article class="result-card">
+            <span>Custos de m.o</span>
+            <strong id="labor-cost">R$ 0,00</strong>
+          </article>
+          <article class="result-card">
+            <span>Custos corte e vinco</span>
+            <strong id="diecut-cost">R$ 0,00</strong>
+          </article>
+        </div>
+
+        <div class="total-banner">
+          <span>TOTAL DE CUSTOS</span>
+          <strong id="total-cost">R$ 0,00</strong>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
